@@ -1,4 +1,4 @@
-package gif
+package gifloader
 
 import (
 	"encoding/json"
@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-var mockSearchResultPath = path.Join(".", "fixtures", "mock-search-result.json")
+var mockSearchResultPath = path.Join(".", "test_fixtures", "mock-search-result.json")
 
 type GiphyTestSuite struct {
 	suite.Suite

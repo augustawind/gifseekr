@@ -1,4 +1,5 @@
 export GO111MODULE := on
+export FYNE_THEME := light
 
 GOPKG := github.com/dustinrohde/gifseekr
 SRC := $(GOPATH)/src/$(GOPKG)

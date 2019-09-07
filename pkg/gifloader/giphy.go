@@ -1,4 +1,4 @@
-package gif
+package gifloader
 
 import (
 	"encoding/json"
@@ -109,13 +109,14 @@ type SearchResult struct {
 }
 
 type GIFObject struct {
-	Title    string
-	Url      string
-	BitlyUrl string `json:"bitly_url"`
+	ID       string `json:"id"`
+	Title    string `json:"title"`
+	URL      string `json:"url"`
+	BitlyURL string `json:"bitly_url"`
 }
 
 type PaginationObject struct {
-	Offset     int
+	Offset     int `json:"offset"`
 	TotalCount int `json:"total_count"`
-	Count      int
+	Count      int `json:"count"`
 }
