@@ -104,8 +104,14 @@ func (h *SearchHandle) Next() (*SearchResult, error) {
 }
 
 type SearchResult struct {
-	Data       []GIFObject
-	Pagination PaginationObject
+	Pagination PaginationObject `json:"pagination"`
+	Data       []GIFObject      `json:"data"`
+}
+
+type PaginationObject struct {
+	Offset     int `json:"offset"`
+	TotalCount int `json:"total_count"`
+	Count      int `json:"count"`
 }
 
 type GIFObject struct {
@@ -113,10 +119,4 @@ type GIFObject struct {
 	Title    string `json:"title"`
 	URL      string `json:"url"`
 	BitlyURL string `json:"bitly_url"`
-}
-
-type PaginationObject struct {
-	Offset     int `json:"offset"`
-	TotalCount int `json:"total_count"`
-	Count      int `json:"count"`
 }
