@@ -6,6 +6,8 @@ import (
 
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+
+	"github.com/dustinrohde/gifseekr/pkg/ui"
 )
 
 const (
@@ -13,11 +15,7 @@ const (
 	DefaultConfigName = "settings"
 )
 
-type Settings struct {
-	GiphyAPIKey string `mapstructure:"giphy-api-key"`
-}
-
-func ReadConfig() (settings *Settings, err error) {
+func ReadConfig() (settings *ui.AppSettings, err error) {
 	v := viper.New()
 
 	// define options
@@ -51,7 +49,7 @@ func ReadConfig() (settings *Settings, err error) {
 		err = nil
 	}
 
-	settings = new(Settings)
+	settings = new(ui.AppSettings)
 	err = v.Unmarshal(settings)
 	return settings, err
 }
