@@ -3,13 +3,13 @@ package main
 import (
 	"github.com/davecgh/go-spew/spew"
 
-	"github.com/dustinrohde/gifseekr"
+	"github.com/dustinrohde/gifseekr/pkg/gif"
 )
 
 const apiKey = "jEYeMjhDmvnJpAsKEIauvWzWyPae6wwm"
 
 func main() {
-	client := gifseekr.NewGiphyClient(apiKey).PageSize(2)
+	client := gif.NewGiphyClient(apiKey).PageSize(2)
 	handle := client.Search("food")
 	resp, err := handle.Next()
 	if err != nil {
