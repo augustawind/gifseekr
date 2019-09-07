@@ -7,10 +7,6 @@ GOPKG_APP = $(GOPKG)/cmd/gifseekr
 
 .PHONY: setup all build run test vet fmt lint check
 
-setup:
-	go get -u golang.org/x/tools/cmd/goimports
-	go get -u golang.org/x/lint/golint
-
 all: build
 
 build:
