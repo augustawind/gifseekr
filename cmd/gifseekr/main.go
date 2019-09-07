@@ -1,9 +1,6 @@
 package main
 
 import (
-	"image/gif"
-	"net/http"
-
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/canvas"
 	"fyne.io/fyne/widget"
@@ -23,23 +20,16 @@ func main() {
 	client := gifloader.NewGiphyClient(settings.GiphyAPIKey).PageSize(2)
 	handle := client.Search("food")
 	page, err := handle.Next()
-	if err != nil {
-		println("ERROR ===============V")
-		spew.Dump(err)
-	}
-	if page != nil {
-		println("PAGE JSON ===============V")
-		spew.Dump(page)
-	}
 
-	response, err := http.Get(gifURL)
+	previews, err := gifloader.LoadPreviews(page)
 	if err != nil {
 		panic(err)
 	}
+	spew.Config.MaxDepth = 3
+	spew.Dump(previews)
 
-	gifimg, err := gif.Decode(response.Body)
 	image := &canvas.Image{FillMode: canvas.ImageFillOriginal}
-	image.Image = gifimg
+	image.Image = previews[0].GIF.Image[0]
 
 	a := app.New()
 	win := a.NewWindow("Hello")

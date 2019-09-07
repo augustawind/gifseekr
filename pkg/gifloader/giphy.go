@@ -3,6 +3,7 @@ package gifloader
 import (
 	"encoding/json"
 	"fmt"
+	"image/gif"
 	"net/http"
 	"strconv"
 
@@ -101,6 +102,36 @@ func (h *SearchHandle) Next() (*SearchResult, error) {
 
 	h.page += 1
 	return &searchResult, nil
+}
+
+type GIFPreview struct {
+	GIF  *gif.GIF
+	Link string
+}
+
+func LoadPreviews(r *SearchResult) ([]*GIFPreview, error) {
+	client := resty.New()
+	previews := make([]*GIFPreview, len(r.Data))
+
+	// TODO: do this synchronously first, then refactor to async
+	for i, gifObject := range r.Data {
+		imageInfo := gifObject.Images.FixedWidth200
+		imageResp, err := client.R().SetDoNotParseResponse(true).Get(imageInfo.URL)
+		if err != nil {
+			return nil, err
+		}
+		imageReader := imageResp.RawBody()
+		gifData, err := gif.DecodeAll(imageReader)
+		if err != nil {
+			return nil, err
+		}
+		previews[i] = &GIFPreview{
+			GIF:  gifData,
+			Link: gifObject.Images.Downsized5MB.URL,
+		}
+		_ = imageReader.Close()
+	}
+	return previews, nil
 }
 
 type SearchResult struct {
