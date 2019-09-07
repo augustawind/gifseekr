@@ -96,7 +96,7 @@ func (h *SearchHandle) Next() (*SearchResult, error) {
 	var searchResult SearchResult
 	err = json.Unmarshal(resp.Body(), &searchResult)
 	if err != nil {
-		return nil, fmt.Errorf("error parsing search results: %s", resp.Body())
+		return nil, fmt.Errorf("error parsing search results: %s", err)
 	}
 
 	h.page += 1

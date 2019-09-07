@@ -22,12 +22,14 @@ func main() {
 
 	client := gifloader.NewGiphyClient(settings.GiphyAPIKey).PageSize(2)
 	handle := client.Search("food")
-	resp, err := handle.Next()
+	page, err := handle.Next()
 	if err != nil {
-		spew.Dump("ERROR: ", err)
-		spew.Dump("BODY: ", resp)
-	} else {
-		spew.Dump(resp)
+		println("ERROR ===============V")
+		spew.Dump(err)
+	}
+	if page != nil {
+		println("PAGE JSON ===============V")
+		spew.Dump(page)
 	}
 
 	response, err := http.Get(gifURL)
