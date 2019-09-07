@@ -115,8 +115,51 @@ type PaginationObject struct {
 }
 
 type GIFObject struct {
-	ID       string `json:"id"`
-	Title    string `json:"title"`
-	URL      string `json:"url"`
-	BitlyURL string `json:"bitly_url"`
+	ID       string       `json:"id"`
+	Title    string       `json:"title"`
+	URL      string       `json:"url"`
+	BitlyURL string       `json:"bitly_url"`
+	Images   ImagesObject `json:"images"`
+}
+
+type ImagesObject struct {
+	Original      ImageVariant `json:"original"`
+	FixedWidth200 ImageVariant `json:"fixed_width"`
+	Downsized2MB  ImageVariant `json:"downsized"`
+	Downsized5MB  ImageVariant `json:"downsized_medium"`
+	Downsized8MB  ImageVariant `json:"downsized_large"`
+}
+
+type ImageVariant struct {
+	URL    string `json:"url"`
+	Width  int64  `json:"width"`
+	Height int64  `json:"height"`
+	Size   int64  `json:"size"`
+}
+
+func (img *ImageVariant) UnmarshalJSON(data []byte) error {
+	if string(data) == "null" {
+		return nil
+	}
+	aux := &struct {
+		URL    string `json:"url"`
+		Width  string `json:"width"`
+		Height string `json:"height"`
+		Size   string `json:"size"`
+	}{}
+	err := json.Unmarshal(data, &aux)
+	if err != nil {
+		return err
+	}
+	img.URL = aux.URL
+	if img.Width, err = strconv.ParseInt(aux.Width, 10, 64); err != nil {
+		return err
+	}
+	if img.Height, err = strconv.ParseInt(aux.Height, 10, 64); err != nil {
+		return err
+	}
+	if img.Size, err = strconv.ParseInt(aux.Size, 10, 64); err != nil {
+		return err
+	}
+	return nil
 }
