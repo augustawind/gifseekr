@@ -1,4 +1,4 @@
-package main
+package gifseekr
 
 import (
 	"encoding/json"
@@ -6,11 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/go-resty/resty/v2"
 )
 
-const apiKey = "jEYeMjhDmvnJpAsKEIauvWzWyPae6wwm"
 const giphySearchURL = "https://api.giphy.com/v1/gifs/search"
 
 type Rating string
@@ -120,16 +118,4 @@ type PaginationObject struct {
 	Offset     int
 	TotalCount int `json:"total_count"`
 	Count      int
-}
-
-func main() {
-	client := NewGiphyClient(apiKey).PageSize(2)
-	handle := client.Search("food")
-	resp, err := handle.Next()
-	if err != nil {
-		spew.Dump("ERROR: ", err)
-		spew.Dump("BODY: ", resp)
-	} else {
-		spew.Dump(resp)
-	}
 }

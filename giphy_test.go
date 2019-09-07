@@ -1,4 +1,4 @@
-package main
+package gifseekr
 
 import (
 	"encoding/json"
