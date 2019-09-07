@@ -1,15 +1,11 @@
 package main
 
 import (
-	"fyne.io/fyne/app"
-	"fyne.io/fyne/canvas"
-	"fyne.io/fyne/widget"
 	"github.com/davecgh/go-spew/spew"
 
 	"github.com/dustinrohde/gifseekr/pkg/gifloader"
+	"github.com/dustinrohde/gifseekr/pkg/ui"
 )
-
-const gifURL = "http://giphygifs.s3.amazonaws.com/media/M8xmO5ZcLPtAY/giphy.gifloader"
 
 func main() {
 	settings, err := ReadConfig()
@@ -17,7 +13,7 @@ func main() {
 		panic(err)
 	}
 
-	client := gifloader.NewGiphyClient(settings.GiphyAPIKey).PageSize(2)
+	client := gifloader.NewGiphyClient(settings.GiphyAPIKey).PageSize(9)
 	handle := client.Search("food")
 	page, err := handle.Next()
 
@@ -28,17 +24,9 @@ func main() {
 	spew.Config.MaxDepth = 3
 	spew.Dump(previews)
 
-	image := &canvas.Image{FillMode: canvas.ImageFillOriginal}
-	image.Image = previews[0].GIF.Image[0]
-
-	a := app.New()
-	win := a.NewWindow("Hello")
-	win.SetContent(widget.NewVBox(
-		widget.NewButton("Quit", func() {
-			a.Quit()
-		}),
-		image,
-	))
-	canvas.Refresh(image)
-	win.ShowAndRun()
+	app := ui.NewApp()
+	for i, preview := range previews {
+		app.UpdateImage(i, preview.GIF.Image[0])
+	}
+	app.Run()
 }
