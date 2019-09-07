@@ -3,6 +3,7 @@ module github.com/dustinrohde/gifseekr
 go 1.12
 
 require (
+	fyne.io/fyne v1.1.1
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-resty/resty/v2 v2.0.0
 	github.com/jarcoal/httpmock v1.0.4
