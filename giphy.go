@@ -65,7 +65,6 @@ func (c *GiphyClient) search(query string, page int) (*resty.Response, error) {
 			"limit":   strconv.Itoa(c.pageSize),
 			"offset":  strconv.Itoa(page * c.pageSize),
 		})
-	spew.Dump(req.QueryParam)
 	return req.Get(giphySearchURL)
 }
 
